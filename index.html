@@ -1,338 +1,1445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crystal Oracle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at center, #1a0033 0%, #000011 70%, #000000 100%);
+            font-family: 'Crimson Text', serif;
+            color: #e6ccff;
+            overflow-x: hidden;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            margin: 2rem 0;
+            text-shadow: 0 0 20px #9966ff;
+            background: linear-gradient(45deg, #e6ccff, #cc99ff, #9966ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .crystal-ball-container {
+            position: relative;
+            margin: 2rem auto;
+            width: 250px;
+            height: 250px;
+            perspective: 1200px;
+            perspective-origin: center center;
+        }
+        
+        .crystal-ball {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(ellipse 70px 50px at 25% 25%, rgba(255,255,255,0.9) 0%, transparent 50%),
+                radial-gradient(ellipse 35px 25px at 70% 80%, rgba(255,255,255,0.4) 0%, transparent 70%),
+                radial-gradient(circle at 50% 50%, rgba(200,150,255,0.6) 0%, rgba(150,100,255,0.4) 40%, rgba(100,50,200,0.3) 70%, rgba(50,20,100,0.8) 100%);
+            border: 2px solid rgba(153,102,255,0.6);
+            box-shadow: 
+                0 0 60px rgba(153,102,255,0.8),
+                0 0 30px rgba(204,153,255,0.6),
+                inset -20px -20px 40px rgba(0,0,0,0.3),
+                inset 20px 20px 40px rgba(255,255,255,0.1);
+            animation: crystal-glow 6s infinite alternate, crystal-rotate 15s infinite linear;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .crystal-ball::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.1) 60deg, transparent 120deg),
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 20%),
+                radial-gradient(circle at 70% 70%, rgba(153,102,255,0.2) 0%, transparent 30%);
+            animation: mist-swirl 12s infinite linear;
+            border-radius: 50%;
+        }
+        
+        .crystal-ball::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 20%;
+            width: 25%;
+            height: 35%;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 40%, transparent 70%);
+            border-radius: 50%;
+            animation: sparkle 4s infinite ease-in-out;
+            filter: blur(1px);
+        }
+        
+        @keyframes crystal-glow {
+            0% { 
+                box-shadow: 
+                    0 0 60px rgba(153,102,255,0.7),
+                    0 0 30px rgba(204,153,255,0.5),
+                    inset -20px -20px 40px rgba(0,0,0,0.25),
+                    inset 20px 20px 40px rgba(255,255,255,0.08);
+            }
+            100% { 
+                box-shadow: 
+                    0 0 80px rgba(187,137,255,0.8),
+                    0 0 40px rgba(220,187,255,0.6),
+                    inset -24px -24px 44px rgba(0,0,0,0.3),
+                    inset 24px 24px 44px rgba(255,255,255,0.1);
+            }
+        }
+        
+        @keyframes crystal-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes mist-swirl {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(0.8); 
+            }
+            50% { 
+                opacity: 0.9; 
+                transform: scale(1.2); 
+            }
+        }
+        
+        .floating-word {
+            position: absolute;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: #ffcc99;
+            text-shadow: 0 0 10px rgba(255, 204, 153, 0.8);
+            pointer-events: none;
+            z-index: 100;
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+        
+        @keyframes float-to-user {
+            0% {
+                opacity: 0;
+                transform: scale(0.2) translateY(0px) rotateZ(0deg);
+            }
+            25% {
+                opacity: 1;
+                transform: scale(1.1) translateY(60px) rotateZ(-8deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.4) translateY(500px) rotateZ(0deg);
+            }
+        }
+        
+        .word-emerge {
+            animation: float-to-user 5s ease-out forwards;
+        }
+        
+        /* Configuración de API */
+        .api-section {
+            background: linear-gradient(135deg, rgba(25, 0, 50, 0.9), rgba(50, 0, 100, 0.8));
+            border: 3px solid #9966ff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 0 30px rgba(153, 102, 255, 0.3);
+            text-align: left;
+        }
+        
+        .api-section h3 {
+            color: #cc99ff;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            color: #e6ccff;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #9966ff;
+            border-radius: 8px;
+            background: rgba(25, 0, 50, 0.8);
+            color: #e6ccff;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #cc99ff;
+            box-shadow: 0 0 0 3px rgba(204, 153, 255, 0.2);
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 6px;
+            background: #9966ff;
+            border-radius: 3px;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #cc99ff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(204, 153, 255, 0.5);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #cc99ff;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(204, 153, 255, 0.5);
+        }
+        
+        .slider-value {
+            background: linear-gradient(45deg, #9966ff, #cc99ff);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .question-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid #9966ff;
+            border-radius: 10px;
+            background: rgba(25, 0, 50, 0.8);
+            color: #e6ccff;
+            font-family: 'Crimson Text', serif;
+            margin: 1rem 0;
+        }
+        
+        .question-input::placeholder {
+            color: #cc99ff;
+            font-style: italic;
+        }
+        
+        .ask-button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            background: linear-gradient(45deg, #9966ff, #cc99ff);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+        
+        .ask-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(153, 102, 255, 0.4);
+        }
+        
+        .ask-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .secondary-button {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            background: linear-gradient(45deg, #663399, #9966cc);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+        }
+        
+        .secondary-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 51, 153, 0.4);
+        }
+        
+        .secondary-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .danger-button {
+            background: linear-gradient(45deg, #cc3333, #ff6666);
+        }
+        
+        .danger-button:hover:not(:disabled) {
+            box-shadow: 0 5px 15px rgba(204, 51, 51, 0.4);
+        }
+        
+        .prophecy-result {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(25, 0, 50, 0.9), rgba(50, 0, 100, 0.8));
+            border: 3px solid #9966ff;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(153, 102, 255, 0.3);
+            animation: card-appear 1s ease-out;
+            display: none;
+        }
+        
+        @keyframes card-appear {
+            0% { opacity: 0; transform: scale(0.8) translateY(50px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .prophecy-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #cc99ff;
+            text-align: center;
+        }
+        
+        .prophecy-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #e6ccff;
+            background: rgba(153, 102, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #cc99ff;
+        }
+        
+        .prophecy-details {
+            text-align: left;
+            margin-top: 1.5rem;
+        }
+        
+        .prophecy-details h4 {
+            color: #cc99ff;
+            margin-bottom: 0.5rem;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .prophecy-details p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .api-status {
+            font-size: 0.9rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+        
+        .status-ok {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .status-info {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            font-style: italic;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: none;
+        }
+        
+        .history-section {
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .history-entry {
+            background: rgba(25, 0, 50, 0.6);
+            border: 2px solid #663399;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 0 20px rgba(102, 51, 153, 0.3);
+        }
+        
+        .history-meta {
+            font-size: 0.8rem;
+            color: #cc99ff;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        
+        .history-prophecy {
+            font-style: italic;
+            color: #e6ccff;
+            background: rgba(153, 102, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .title { font-size: 2rem; }
+            .crystal-ball-container, .crystal-ball { width: 200px; height: 200px; }
+            .container { padding: 10px; }
+            .prophecy-result { padding: 1rem; }
+            .api-section { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <h1 class="title">Crystal Oracle</h1>
+        
+        <div class="crystal-ball-container">
+            <div class="crystal-ball" id="crystalBall"></div>
+        </div>
+        
+        <!-- Configuración de API -->
+        <div class="api-section" id="apiSection">
+            <h3>🔮 Configuración Mística</h3>
+            
+            <div class="form-group">
+                <label for="apiKeyInput">Clave API de OpenRouter:</label>
+                <input type="password" id="apiKeyInput" placeholder="Introduce tu clave API (sk-or-v1-...)">
+                <div style="margin-top: 0.5rem;">
+                    <button class="secondary-button" id="loadFreeKeyBtn">🎁 Obtener Clave</button>
+                    <button class="secondary-button" id="saveApiKeyBtn">Guardar Clave</button>
+                    <button class="secondary-button danger-button" id="clearApiKeyBtn" disabled>Borrar Clave</button>
+                </div>
+                <div id="apiKeyStatus" class="api-status status-info">
+                    Haz clic en "🎁 Obtener Clave" para conseguir tu API key gratuita de OpenRouter.
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="modelSelect">Modelo de IA:</label>
+                <select id="modelSelect">
+                    <option value="meta-llama/llama-3.2-3b-instruct:free">Llama 3.2 3B (Meta) - Gratuito ✅</option>
+                    <option value="meta-llama/llama-3.2-1b-instruct:free">Llama 3.2 1B (Meta) - Gratuito ✅</option>
+                    <option value="microsoft/phi-3-mini-128k-instruct:free">Phi-3 Mini (Microsoft) - Gratuito ✅</option>
+                    <option value="google/gemma-2-9b-it:free">Gemma 2 9B (Google) - Gratuito ✅</option>
+                    <option value="mistralai/mistral-7b-instruct:free">Mistral 7B (Mistral AI) - Gratuito ✅</option>
+                    <option value="qwen/qwen-2-7b-instruct:free">Qwen 2 7B (Alibaba) - Gratuito ✅</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="rebuscadoSlider">Nivel de Misticismo:</label>
+                <div class="slider-container">
+                    <span>🔮</span>
+                    <input type="range" id="rebuscadoSlider" min="0" max="100" value="50">
+                    <span class="slider-value" id="rebuscadoSliderValue">50</span>
+                    <span>✨</span>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.8rem; color: #cc99ff; margin-top: 1rem;">
+                🎁 Haz clic en "Obtener Clave" para conseguir tu API key gratuita - ¡Solo toma 2 minutos!
+            </p>
+        </div>
+        
+        <!-- Consulta -->
+        <div>
+            <input type="text" class="question-input" id="questionInput" placeholder="Pregunta al oráculo sobre tu destino..." maxlength="200">
+            <br>
+            <button class="ask-button" id="askButton" disabled>Consultar el Oráculo</button>
+            <div id="showConfigBtn" style="text-align: center; margin-top: 1rem; display: none;">
+                <button class="secondary-button" onclick="apiSection.style.display = 'block'; this.parentElement.style.display = 'none';">
+                    ⚙️ Mostrar Configuración
+                </button>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            El cristal comulga con la IA ancestral...
+        </div>
+        
+        <div class="error-message" id="errorMessage"></div>
+        
+        <!-- Resultado de la profecía -->
+        <div class="prophecy-result" id="prophecyResult">
+            <div class="prophecy-title" id="prophecyTitle"></div>
+            <div class="prophecy-text" id="prophecyText"></div>
+            <div class="prophecy-details">
+                <div id="prophecySymbol" style="display: none;">
+                    <h4>Símbolo Clave:</h4>
+                    <p id="prophecySymbolText"></p>
+                </div>
+                <h4>Interpretación:</h4>
+                <p id="prophecyInterpretation"></p>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button class="secondary-button" id="downloadZoltarBtn">
+                    📥 Descargar Tarjeta Zoltar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Historial -->
+        <div class="history-section" id="historySection">
+            <h3 style="color: #cc99ff; font-family: 'Cinzel', serif; text-align: center;">Revelaciones Anteriores</h3>
+            <div id="historyContainer"></div>
+            <button class="secondary-button" id="exportHistoryBtn" disabled>Exportar Historial</button>
+        </div>
+    </div>
+
+    <script type="module">
+        // Variables globales
+        let currentApiKey = null;
+        let isGenerating = false;
+        let allHistoryData = {};
+        let selectedModel = 'meta-llama/llama-3.2-3b-instruct:free';
+        
+        // Constantes
+        const API_KEY_STORAGE_KEY = 'crystalOracleApiKey';
+        const HISTORY_STORAGE_KEY = 'crystalOracleHistory';
+        const MODEL_STORAGE_KEY = 'crystalOracleSelectedModel';
+        
+        // Elementos DOM
+        const userInput = document.getElementById('questionInput');
+        const rebuscadoSlider = document.getElementById('rebuscadoSlider');
+        const rebuscadoSliderValue = document.getElementById('rebuscadoSliderValue');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
+        const clearApiKeyBtn = document.getElementById('clearApiKeyBtn');
+        const loadFreeKeyBtn = document.getElementById('loadFreeKeyBtn');
+        const apiKeyStatus = document.getElementById('apiKeyStatus');
+        const modelSelect = document.getElementById('modelSelect');
+        const askButton = document.getElementById('askButton');
+        const loading = document.getElementById('loading');
+        const errorMessage = document.getElementById('errorMessage');
+        const prophecyResult = document.getElementById('prophecyResult');
+        const prophecyTitle = document.getElementById('prophecyTitle');
+        const prophecyText = document.getElementById('prophecyText');
+        const prophecySymbol = document.getElementById('prophecySymbol');
+        const prophecySymbolText = document.getElementById('prophecySymbolText');
+        const prophecyInterpretation = document.getElementById('prophecyInterpretation');
+        const historySection = document.getElementById('historySection');
+        const historyContainer = document.getElementById('historyContainer');
+        const exportHistoryBtn = document.getElementById('exportHistoryBtn');
+        const downloadZoltarBtn = document.getElementById('downloadZoltarBtn');
+        const apiSection = document.getElementById('apiSection');
+        const showConfigBtn = document.getElementById('showConfigBtn');
+        
+        // Crear estrellas
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Crear palabras flotantes con trayectoria de 5 fases específica
+        function createFloatingWords(text, targetElement) {
+            const crystalBall = document.getElementById('crystalBall');
+            const crystalRect = crystalBall.getBoundingClientRect();
+            const targetRect = targetElement.getBoundingClientRect();
+            
+            const words = text.split(' ').filter(word => word.length > 2);
+            const maxWords = Math.min(words.length, 12);
+            
+            for (let i = 0; i < maxWords; i++) {
+                setTimeout(() => {
+                    const floatingElement = document.createElement('div');
+                    floatingElement.className = 'floating-word';
+                    floatingElement.textContent = words[i];
+                    
+                    const crystalCenterX = crystalRect.left + crystalRect.width / 2;
+                    const crystalCenterY = crystalRect.top + crystalRect.height / 2;
+                    
+                    // FASE 1: Posición inicial DENTRO de la bola de cristal
+                    const startX = crystalCenterX + (Math.random() - 0.5) * 60; // Dentro del radio de la bola
+                    const startY = crystalCenterY + (Math.random() - 0.5) * 60;
+                    
+                    // Posiciones para las fases posteriores
+                    const initialAngle = (i * 30) % 360;
+                    const orbitRadius = 85;
+                    const circularX = crystalCenterX + Math.cos(initialAngle * Math.PI / 180) * orbitRadius;
+                    const circularY = crystalCenterY + Math.sin(initialAngle * Math.PI / 180) * orbitRadius;
+                    
+                    // Posición de parada temporal (flotando)
+                    const floatX = crystalCenterX + Math.cos((initialAngle + 180) * Math.PI / 180) * orbitRadius;
+                    const floatY = crystalCenterY + Math.sin((initialAngle + 180) * Math.PI / 180) * orbitRadius;
+                    
+                    // Posición final en la zona de respuesta
+                    const targetCenterX = targetRect.left + targetRect.width / 2;
+                    const targetCenterY = targetRect.top + targetRect.height / 2;
+                    const finalX = targetCenterX + (Math.random() - 0.5) * targetRect.width * 0.7;
+                    const finalY = targetCenterY + (Math.random() - 0.5) * targetRect.height * 0.7;
+                    
+                    // Configuración inicial
+                    floatingElement.style.left = startX + 'px';
+                    floatingElement.style.top = startY + 'px';
+                    floatingElement.style.position = 'fixed';
+                    floatingElement.style.zIndex = '1000';
+                    floatingElement.style.opacity = '0';
+                    floatingElement.style.transformOrigin = 'center';
+                    floatingElement.style.fontSize = '1.1rem';
+                    
+                    document.body.appendChild(floatingElement);
+                    
+                    // FASE 1: Aparición dentro de la bola de cristal (inmediato)
+                    setTimeout(() => {
+                        floatingElement.style.opacity = '1';
+                        floatingElement.style.transform = 'scale(0.8)';
+                    }, 100);
+                    
+                    // FASE 2: Movimiento Circular Horario (1.5s)
+                    setTimeout(() => {
+                        floatingElement.style.transition = 'all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        floatingElement.style.left = circularX + 'px';
+                        floatingElement.style.top = circularY + 'px';
+                        floatingElement.style.transform = 'scale(1.1) rotate(180deg)';
+                        floatingElement.style.opacity = '1';
+                    }, 200);
+                    
+                    // FASE 3: Detención y flotación (1.2s)
+                    setTimeout(() => {
+                        floatingElement.style.transition = 'all 1.2s ease-in-out';
+                        floatingElement.style.left = floatX + 'px';
+                        floatingElement.style.top = floatY + 'px';
+                        floatingElement.style.transform = 'scale(1.2) rotate(270deg)';
+                        floatingElement.style.opacity = '0.9';
+                    }, 1700);
+                    
+                    // FASE 4: Descenso Rápido con efecto bounce (1s)
+                    setTimeout(() => {
+                        floatingElement.style.transition = 'all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                        floatingElement.style.left = finalX + 'px';
+                        floatingElement.style.top = finalY + 'px';
+                        floatingElement.style.transform = 'scale(0.9) rotate(360deg)';
+                        floatingElement.style.opacity = '0.8';
+                    }, 2900);
+                    
+                    // FASE 5: Caída hacia el centro de la pantalla (0.8s)
+                    setTimeout(() => {
+                        floatingElement.style.transition = 'all 0.8s ease-in';
+                        
+                        // Calcular el centro de la pantalla
+                        const screenCenterX = window.innerWidth / 2;
+                        const screenCenterY = window.innerHeight / 2;
+                        
+                        floatingElement.style.left = screenCenterX + 'px';
+                        floatingElement.style.top = screenCenterY + 'px';
+                        floatingElement.style.transform = 'scale(0.5) rotate(0deg)';
+                        floatingElement.style.opacity = '0.4';
+                    }, 3900);
+                    
+                    // Desvanecimiento final
+                    setTimeout(() => {
+                        floatingElement.style.transition = 'all 0.6s ease-in';
+                        floatingElement.style.opacity = '0';
+                        floatingElement.style.transform = 'scale(0.3)';
+                    }, 4700);
+                    
+                    // Limpieza
+                    setTimeout(() => {
+                        if (floatingElement.parentNode) {
+                            floatingElement.parentNode.removeChild(floatingElement);
+                        }
+                    }, 5500);
+                }, i * 180);
+            }
+        }
+        
+        // Validar formato de API key
+        function isValidApiKeyFormat(key) {
+            if (!key) return false;
+            return key.startsWith('sk-or-v1-') || key.startsWith('sk-');
+        }
+        
+        // Cargar API key
+        function loadApiKey() {
+            const storedKey = localStorage.getItem(API_KEY_STORAGE_KEY);
+            if (storedKey && isValidApiKeyFormat(storedKey)) {
+                currentApiKey = storedKey;
+                apiKeyInput.value = currentApiKey;
+                apiKeyStatus.textContent = 'Clave API cargada y activa. Lista para generar.';
+                apiKeyStatus.className = 'api-status status-ok';
+            } else {
+                currentApiKey = null;
+                if (storedKey) {
+                    localStorage.removeItem(API_KEY_STORAGE_KEY);
+                }
+                apiKeyStatus.textContent = 'Haz clic en "🎁 Obtener Clave" para conseguir tu API key gratuita de OpenRouter.';
+                apiKeyStatus.className = 'api-status status-info';
+            }
+            updateButtonStates();
+        }
+        
+        // Guardar API key
+        function saveApiKey() {
+            const keyFromInput = apiKeyInput.value.trim();
+            if (isValidApiKeyFormat(keyFromInput)) {
+                currentApiKey = keyFromInput;
+                localStorage.setItem(API_KEY_STORAGE_KEY, currentApiKey);
+                apiKeyStatus.textContent = '¡Clave API guardada y activa! Lista para generar.';
+                apiKeyStatus.className = 'api-status status-ok';
+                errorMessage.style.display = 'none';
+            } else {
+                currentApiKey = null;
+                apiKeyStatus.textContent = "Formato de clave API inválido. La generación está desactivada.";
+                apiKeyStatus.className = 'api-status status-error';
+            }
+            updateButtonStates();
+        }
+        
+        // Cargar API key gratuita - redirigir a OpenRouter
+        function loadFreeApiKey() {
+            // Mostrar instrucciones para obtener clave real
+            const helpMessage = `
+¡Para usar el Crystal Oracle necesitas una API key gratuita real!
+
+PASOS RÁPIDOS:
+1. Ve a: https://openrouter.ai/keys
+2. Regístrate gratis (solo email)
+3. Crea una nueva API key
+4. Cópiala y pégala aquí
+5. Haz clic en "Guardar Clave"
+
+¡Es gratis y toma solo 2 minutos!
+            `.trim();
+            
+            alert(helpMessage);
+            
+            // Abrir OpenRouter en nueva ventana
+            window.open('https://openrouter.ai/keys', '_blank');
+            
+            apiKeyStatus.textContent = '🔗 Ve a OpenRouter.ai para obtener tu clave API gratuita. Después pégala aquí y guárdala.';
+            apiKeyStatus.className = 'api-status status-info';
+            
+            // Enfocar el campo para que peguen su clave
+            apiKeyInput.focus();
+            apiKeyInput.placeholder = "Pega aquí tu clave de OpenRouter (sk-or-v1-...)";
+            
+            updateButtonStates();
+        }
+        
+        // Borrar API key
+        function clearApiKey() {
+            if (confirm('¿Estás seguro de que quieres borrar la clave API guardada?')) {
+                currentApiKey = null;
+                localStorage.removeItem(API_KEY_STORAGE_KEY);
+                apiKeyInput.value = '';
+                apiKeyStatus.textContent = 'Clave API borrada. La generación está desactivada.';
+                apiKeyStatus.className = 'api-status status-info';
+                
+                // Mostrar configuración cuando se borra la API key
+                apiSection.style.display = 'block';
+                updateButtonStates();
+            }
+        }
+        
+        // Cargar modelo seleccionado
+        function loadSelectedModel() {
+            const storedModel = localStorage.getItem(MODEL_STORAGE_KEY);
+            if (storedModel) {
+                selectedModel = storedModel;
+                modelSelect.value = selectedModel;
+            }
+        }
+        
+        // Guardar modelo seleccionado
+        function saveSelectedModel() {
+            selectedModel = modelSelect.value;
+            localStorage.setItem(MODEL_STORAGE_KEY, selectedModel);
+        }
+        
+        // Actualizar estados de botones y visibilidad de configuración
+        function updateButtonStates() {
+            const keyIsValid = currentApiKey && isValidApiKeyFormat(currentApiKey);
+            const hasInput = userInput.value.trim() !== '';
+            
+            loadFreeKeyBtn.disabled = isGenerating;
+            clearApiKeyBtn.disabled = !keyIsValid || isGenerating;
+            saveApiKeyBtn.disabled = isGenerating || !apiKeyInput.value.trim();
+            askButton.disabled = !keyIsValid || !hasInput || isGenerating;
+            apiKeyInput.disabled = isGenerating;
+            modelSelect.disabled = isGenerating;
+            
+            const term = userInput.value.trim();
+            const normalizedTerm = term.toLowerCase();
+            const hasHistory = term && allHistoryData[normalizedTerm] && allHistoryData[normalizedTerm].length > 0;
+            exportHistoryBtn.disabled = isGenerating || !hasHistory;
+            
+            // Ocultar/mostrar configuración según el estado
+            updateConfigurationVisibility();
+        }
+        
+        // Cargar historial
+        function loadAllHistory() {
+            const storedHistory = localStorage.getItem(HISTORY_STORAGE_KEY);
+            if (storedHistory) {
+                try {
+                    allHistoryData = JSON.parse(storedHistory);
+                } catch (e) {
+                    console.error("Error al parsear historial:", e);
+                    allHistoryData = {};
+                    localStorage.removeItem(HISTORY_STORAGE_KEY);
+                }
+            } else {
+                allHistoryData = {};
+            }
+            displayHistory();
+        }
+        
+        // Guardar historial
+        function saveAllHistory() {
+            try {
+                localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(allHistoryData));
+            } catch (e) {
+                console.error('Error al guardar historial:', e);
+            }
+        }
+        
+        // Agregar entrada al historial
+        function addEntryToHistory(term, entryData) {
+            if (!term || !entryData) return;
+            
+            const normalizedTerm = term.toLowerCase().trim();
+            const entryWithMetadata = {
+                ...entryData,
+                timestamp: new Date().toISOString(),
+                rebuscadoLevel: parseInt(rebuscadoSlider.value)
+            };
+            
+            if (!allHistoryData[normalizedTerm]) {
+                allHistoryData[normalizedTerm] = [];
+            }
+            
+            allHistoryData[normalizedTerm].unshift(entryWithMetadata);
+            saveAllHistory();
+        }
+        
+        // Mostrar historial
+        function displayHistory() {
+            const term = userInput.value.trim();
+            const normalizedTerm = term.toLowerCase();
+            
+            historyContainer.innerHTML = '';
+            
+            if (term && allHistoryData[normalizedTerm] && allHistoryData[normalizedTerm].length > 0) {
+                allHistoryData[normalizedTerm].forEach(entry => {
+                    const entryDiv = document.createElement('div');
+                    entryDiv.className = 'history-entry';
+                    
+                    const entryDate = new Date(entry.timestamp);
+                    const formattedTimestamp = entryDate.toLocaleString('es-ES');
+                    const rebuscadoInfo = entry.rebuscadoLevel !== undefined ? ` (Nivel: ${entry.rebuscadoLevel})` : '';
+                    
+                    let symbolHTML = '';
+                    if (entry.simbolo_clave && entry.simbolo_clave.trim() !== '' && entry.simbolo_clave.toLowerCase() !== 'n/a') {
+                        symbolHTML = `<p><strong>Símbolo:</strong> ${entry.simbolo_clave}</p>`;
+                    }
+                    
+                    entryDiv.innerHTML = `
+                        <div class="history-meta">Generado: ${formattedTimestamp}${rebuscadoInfo}</div>
+                        <div class="history-prophecy">${entry.texto_profecia}</div>
+                        <p><strong>Título:</strong> ${entry.titulo_profecia}</p>
+                        ${symbolHTML}
+                        <p><strong>Interpretación:</strong> ${entry.interpretacion_profecia}</p>
+                    `;
+                    
+                    historyContainer.appendChild(entryDiv);
+                });
+                
+                historySection.style.display = 'block';
+            } else {
+                historySection.style.display = 'none';
+            }
+            
+            updateButtonStates();
+        }
+        
+        // Exportar historial
+        function exportHistoryToMarkdown() {
+            const term = userInput.value.trim();
+            if (!term) {
+                alert("Por favor, introduce un término para exportar su historial.");
+                return;
+            }
+            
+            const normalizedTerm = term.toLowerCase();
+            const historyForTerm = allHistoryData[normalizedTerm];
+            
+            if (!historyForTerm || historyForTerm.length === 0) {
+                alert(`No hay historial para el término "${term}" para exportar.`);
+                return;
+            }
+            
+            let markdownContent = `# Historial de Profecías para: "${term}"\n\n`;
+            
+            historyForTerm.forEach((entry, index) => {
+                const entryDate = new Date(entry.timestamp);
+                const formattedTimestamp = entryDate.toLocaleString('es-ES');
+                const rebuscadoInfo = entry.rebuscadoLevel !== undefined ? ` (Nivel: ${entry.rebuscadoLevel})` : '';
+                
+                markdownContent += `## Profecía del ${formattedTimestamp}${rebuscadoInfo}\n\n`;
+                markdownContent += `> ${entry.texto_profecia.replace(/\n/g, '\n> ')}\n\n`;
+                markdownContent += `**Título:** ${entry.titulo_profecia}\n`;
+                
+                if (entry.simbolo_clave && entry.simbolo_clave.trim() !== '' && entry.simbolo_clave.toLowerCase() !== 'n/a') {
+                    markdownContent += `**Símbolo:** ${entry.simbolo_clave}\n`;
+                }
+                
+                markdownContent += `**Interpretación:** ${entry.interpretacion_profecia}\n\n`;
+                
+                if (index < historyForTerm.length - 1) {
+                    markdownContent += "---\n\n";
+                }
+            });
+            
+            const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8' });
+            const sanitizedTerm = term.replace(/[^\w\s.-]/gi, '').replace(/\s+/g, '_').substring(0, 50) || "export";
+            const filename = `CrystalOracle_${sanitizedTerm}.md`;
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        }
+        
+        // Función para controlar visibilidad de la configuración
+        function updateConfigurationVisibility() {
+            const keyIsValid = currentApiKey && isValidApiKeyFormat(currentApiKey);
+            const hasGeneratedContent = Object.keys(allHistoryData).length > 0;
+            
+            // Ocultar configuración si hay API key válida Y ya se ha generado contenido
+            if (keyIsValid && hasGeneratedContent) {
+                apiSection.style.display = 'none';
+                showConfigBtn.style.display = 'block';
+            } else {
+                apiSection.style.display = 'block';
+                showConfigBtn.style.display = 'none';
+            }
+        }
+        
+        // Función para mostrar configuración cuando sea necesario
+        function showConfigurationIfNeeded() {
+            const keyIsValid = currentApiKey && isValidApiKeyFormat(currentApiKey);
+            
+            // Mostrar configuración si la API key no es válida
+            if (!keyIsValid) {
+                apiSection.style.display = 'block';
+            }
+        }
+        
+        // Función para descargar tarjeta Zoltar
+        function downloadZoltarCard() {
+            console.log('📥 Downloading Zoltar-style Crystal Oracle card...');
+            
+            const prophecyTitle = document.getElementById('prophecyTitle').textContent;
+            const prophecyText = document.getElementById('prophecyText').textContent;
+            const prophecyInterpretation = document.getElementById('prophecyInterpretation').textContent;
+            const prophecySymbol = document.getElementById('prophecySymbolText').textContent;
+            
+            if (!prophecyText) {
+                alert('Primero consulta al oráculo para obtener tu profecía.');
+                return;
+            }
+            
+            // Crear canvas para tarjeta Zoltar
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Dimensiones estilo tarjeta vintage
+            const cardWidth = 400;
+            const cardHeight = 600;
+            canvas.width = cardWidth;
+            canvas.height = cardHeight;
+            
+            // Fondo vintage envejecido
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#f9f7f4');
+            gradient.addColorStop(0.5, '#f0ead6');
+            gradient.addColorStop(1, '#e8dcc0');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, cardWidth, cardHeight);
+            
+            // Textura de papel envejecido
+            ctx.fillStyle = 'rgba(139, 125, 107, 0.1)';
+            for (let i = 0; i < 60; i++) {
+                const x = Math.random() * cardWidth;
+                const y = Math.random() * cardHeight;
+                const size = Math.random() * 3 + 1;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Marco ornamental
+            ctx.strokeStyle = '#8b7d6b';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(15, 15, cardWidth - 30, cardHeight - 30);
+            
+            // Marco interno decorativo
+            ctx.strokeStyle = '#a0956b';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(25, 25, cardWidth - 50, cardHeight - 50);
+            
+            // TÍTULO PRINCIPAL
+            ctx.fillStyle = '#2c1810';
+            ctx.font = 'bold 28px "Times New Roman", serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('CRYSTAL ORACLE', cardWidth / 2, 70);
+            
+            // Subtítulo
+            ctx.font = 'italic 16px "Times New Roman", serif';
+            ctx.fillStyle = '#5d4e37';
+            ctx.fillText('~ Revelación Mística ~', cardWidth / 2, 100);
+            
+            // Línea decorativa
+            ctx.strokeStyle = '#8b7d6b';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(60, 115);
+            ctx.lineTo(cardWidth - 60, 115);
+            ctx.stroke();
+            
+            // TÍTULO DE LA PROFECÍA
+            ctx.fillStyle = '#2c1810';
+            ctx.font = 'bold 18px "Times New Roman", serif';
+            ctx.textAlign = 'center';
+            
+            // Dividir título si es muy largo
+            const titleWords = prophecyTitle.split(' ');
+            if (titleWords.length > 6) {
+                const midPoint = Math.ceil(titleWords.length / 2);
+                const firstLine = titleWords.slice(0, midPoint).join(' ');
+                const secondLine = titleWords.slice(midPoint).join(' ');
+                ctx.fillText(firstLine, cardWidth / 2, 150);
+                ctx.fillText(secondLine, cardWidth / 2, 175);
+            } else {
+                ctx.fillText(prophecyTitle, cardWidth / 2, 150);
+            }
+            
+            // SÍMBOLO (si existe)
+            if (prophecySymbol && prophecySymbol.trim() !== '' && prophecySymbol.toLowerCase() !== 'n/a') {
+                ctx.font = 'italic 14px "Times New Roman", serif';
+                ctx.fillStyle = '#5d4e37';
+                ctx.fillText(`Símbolo: ${prophecySymbol}`, cardWidth / 2, 200);
+            }
+            
+            // CUERPO DE LA PROFECÍA
+            const textStartY = prophecySymbol && prophecySymbol.trim() !== '' ? 230 : 200;
+            const marginX = 40;
+            const columnWidth = cardWidth - (marginX * 2);
+            
+            ctx.fillStyle = '#2c1810';
+            ctx.font = '14px "Times New Roman", serif';
+            ctx.textAlign = 'left';
+            
+            // Dividir texto en líneas
+            const cleanText = prophecyText.replace(/["""]/g, '').trim();
+            const words = cleanText.split(' ');
+            const lines = [];
+            let currentLine = '';
+            
+            words.forEach(word => {
+                const testLine = currentLine + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > columnWidth && currentLine !== '') {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine = testLine;
+                }
+            });
+            if (currentLine.trim() !== '') {
+                lines.push(currentLine.trim());
+            }
+            
+            // Dibujar texto con espaciado elegante
+            const lineHeight = 18;
+            lines.forEach((line, index) => {
+                const y = textStartY + (index * lineHeight);
+                ctx.fillText(line, marginX, y);
+            });
+            
+            // INTERPRETACIÓN
+            const interpretationStartY = textStartY + (lines.length * lineHeight) + 30;
+            
+            ctx.fillStyle = '#5d4e37';
+            ctx.font = 'bold 14px "Times New Roman", serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('~ Interpretación ~', cardWidth / 2, interpretationStartY);
+            
+            // Línea decorativa antes de interpretación
+            ctx.strokeStyle = '#a0956b';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(80, interpretationStartY + 10);
+            ctx.lineTo(cardWidth - 80, interpretationStartY + 10);
+            ctx.stroke();
+            
+            // Texto de interpretación
+            ctx.fillStyle = '#2c1810';
+            ctx.font = '12px "Times New Roman", serif';
+            ctx.textAlign = 'left';
+            
+            const interpWords = prophecyInterpretation.split(' ');
+            const interpLines = [];
+            let currentInterpLine = '';
+            
+            interpWords.forEach(word => {
+                const testLine = currentInterpLine + word + ' ';
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > columnWidth && currentInterpLine !== '') {
+                    interpLines.push(currentInterpLine.trim());
+                    currentInterpLine = word + ' ';
+                } else {
+                    currentInterpLine = testLine;
+                }
+            });
+            if (currentInterpLine.trim() !== '') {
+                interpLines.push(currentInterpLine.trim());
+            }
+            
+            interpLines.forEach((line, index) => {
+                const y = interpretationStartY + 30 + (index * 16);
+                ctx.fillText(line, marginX, y);
+            });
+            
+            // PIE DE PÁGINA
+            const footerY = cardHeight - 40;
+            ctx.fillStyle = '#5d4e37';
+            ctx.font = 'bold 12px "Times New Roman", serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Crystal Oracle © 2025', cardWidth / 2, footerY);
+            
+            ctx.font = 'italic 10px "Times New Roman", serif';
+            ctx.fillText('Sabiduría Ancestral para la Era Moderna', cardWidth / 2, footerY + 15);
+            
+            // Fecha de generación
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-ES');
+            ctx.font = '9px "Times New Roman", serif';
+            ctx.fillStyle = '#8b7d6b';
+            ctx.fillText(`Generado: ${dateStr}`, cardWidth / 2, footerY - 15);
+            
+            // Descargar
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = `crystal-oracle-zoltar-${Date.now()}.png`;
+                link.href = url;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                
+                console.log('📥 Zoltar-style card downloaded successfully!');
+            }, 'image/png');
+        }
+        
+        // Generar profecía
+        async function generateProphecy() {
+            const userText = userInput.value.trim();
+            const rebuscadoLevel = parseInt(rebuscadoSlider.value);
+            
+            if (!userText) {
+                alert('Por favor, introduce una pregunta para el oráculo.');
+                userInput.focus();
+                return;
+            }
+            
+            if (!currentApiKey || !isValidApiKeyFormat(currentApiKey)) {
+                alert('Por favor, introduce y guarda una API Key válida.');
+                apiKeyInput.focus();
+                return;
+            }
+            
+            isGenerating = true;
+            loading.style.display = 'block';
+            prophecyResult.style.display = 'none';
+            errorMessage.style.display = 'none';
+            updateButtonStates();
+            
+            try {
+                let complexityDescription = "clara y directa";
+                if (rebuscadoLevel > 75) complexityDescription = "profundamente críptica, simbólica y abierta a múltiples interpretaciones";
+                else if (rebuscadoLevel > 50) complexityDescription = "bastante enigmática y metafórica";
+                else if (rebuscadoLevel > 25) complexityDescription = "con un toque de misterio y simbolismo";
+                
+                const prompt = `Eres un Oráculo ancestral, un Vidente místico capaz de escudriñar los velos del tiempo y el destino.
+Tu tarea es generar una PROFECÍA o VATICINIO enigmático y evocador, basado en el siguiente tema, pregunta o situación proporcionada por el usuario: "${userText}".
+La profecía debe tener un nivel de misticismo y "rebuscamiento" ${complexityDescription} (correspondiente a un nivel de ${rebuscadoLevel} sobre 100).
+Debe ser inspiradora, misteriosa y poética, insinuando verdades sin revelarlas completamente.
+Devuelve tu respuesta ESTRICTAMENTE en el siguiente formato JSON, sin ningún texto adicional antes o después del JSON:
 {
-  "realistic": {
-    "name": "Realista",
-    "artist": "ultra realistic photography, sharp focus, 8k, high detail, cinematic lighting, photorealistic",
-    "color": "bg-gray-500",
-    "category": "Técnicas Fundamentales"
-  },
-  "digital_painting": {
-    "name": "Pintura Digital",
-    "artist": "epic digital painting, trending on ArtStation, dramatic lighting, vibrant colors, concept art, fantasy illustration, highly detailed",
-    "color": "bg-violet-600",
-    "category": "Técnicas Fundamentales"
-  },
-  "watercolor": {
-    "name": "Acuarela",
-    "artist": "traditional watercolor painting, soft edges, pigment bleed, translucent layers, light and airy atmosphere",
-    "color": "bg-sky-400",
-    "category": "Técnicas Fundamentales"
-  },
-  "oil_painting": {
-    "name": "Óleo",
-    "artist": "classical oil painting, visible impasto brushstrokes, rich texture, deep colors, dramatic chiaroscuro lighting",
-    "color": "bg-amber-600",
-    "category": "Técnicas Fundamentales"
-  },
-  "pencil_drawing": {
-    "name": "Dibujo a Lápiz",
-    "artist": "detailed graphite pencil sketch, fine hatching and cross-hatching, monochromatic, realistic shading",
-    "color": "bg-gray-400",
-    "category": "Técnicas Fundamentales"
-  },
-  "ink_drawing": {
-    "name": "Dibujo a Tinta",
-    "artist": "black and white ink illustration, high contrast, sharp pen and ink lines, intricate hatching, graphic style",
-    "color": "bg-black",
-    "category": "Técnicas Fundamentales"
-  },
-  "da_vinci": {
-    "name": "Leonardo da Vinci",
-    "artist": "drawing in the style of Leonardo da Vinci, anatomical sketch, sfumato technique, sepia tones, Renaissance mastery",
-    "color": "bg-orange-800",
-    "category": "Maestros Históricos"
-  },
-  "rembrandt": {
-    "name": "Rembrandt",
-    "artist": "Baroque oil painting in the style of Rembrandt, masterful use of chiaroscuro, deep psychological portrait, expressive brushwork",
-    "color": "bg-yellow-900",
-    "category": "Maestros Históricos"
-  },
-  "caravaggio": {
-    "name": "Caravaggio",
-    "artist": "Baroque painting in the style of Caravaggio, extreme tenebrism, dramatic high contrast lighting, intense realism",
-    "color": "bg-stone-700",
-    "category": "Maestros Históricos"
-  },
-  "william_blake": {
-    "name": "William Blake",
-    "artist": "Visionary romanticism painting in the style of William Blake, swirling muscular figures, mystical and spiritual themes, watercolor and engraving",
-    "color": "bg-indigo-400",
-    "category": "Maestros Históricos"
-  },
-  "gustave_dore": {
-    "name": "Gustave Doré",
-    "artist": "epic and dramatic 19th-century engraving in the style of Gustave Doré, sublime fantasy scenes, incredible detail, masterful chiaroscuro",
-    "color": "bg-gray-700",
-    "category": "Maestros Históricos"
-  },
-  "monet": {
-    "name": "Claude Monet",
-    "artist": "Impressionist painting in the style of Claude Monet, short visible brushstrokes, capturing the fleeting effects of light and atmosphere",
-    "color": "bg-blue-400",
-    "category": "Impresionismo y Modernismo"
-  },
-  "van_gogh": {
-    "name": "Vincent Van Gogh",
-    "artist": "Post-impressionist oil painting in the style of Vincent Van Gogh, with swirling, thick impasto brushstrokes, vibrant and emotional colors",
-    "color": "bg-yellow-500",
-    "category": "Impresionismo y Modernismo"
-  },
-  "picasso": {
-    "name": "Pablo Picasso",
-    "artist": "Cubist painting in the style of Pablo Picasso, deconstructed geometric forms, multiple viewpoints, abstract",
-    "color": "bg-purple-600",
-    "category": "Impresionismo y Modernismo"
-  },
-  "dali": {
-    "name": "Salvador Dalí",
-    "artist": "Surrealist painting in the style of Salvador Dalí, dreamlike and bizarre imagery, highly detailed photorealistic technique",
-    "color": "bg-red-500",
-    "category": "Impresionismo y Modernismo"
-  },
-  "kahlo": {
-    "name": "Frida Kahlo",
-    "artist": "painting in the style of Frida Kahlo, combining magic realism, personal symbolism, and Mexican folk art influences, introspective self-portrait",
-    "color": "bg-rose-600",
-    "category": "Impresionismo y Modernismo"
-  },
-  "alphonse_mucha": {
-    "name": "Alphonse Mucha",
-    "artist": "Art Nouveau illustration in the style of Alphonse Mucha, decorative, with sinuous organic lines, idealized female figures, and a pastel color palette",
-    "color": "bg-yellow-600",
-    "category": "Impresionismo y Modernismo"
-  },
-  "apelles_mestres": {
-    "name": "Apel·les Mestres",
-    "artist": "Catalan modernism illustration in the style of Apel·les Mestres, delicate lines, Art Nouveau influence, poetic and folkloric scenes",
-    "color": "bg-teal-600",
-    "category": "Impresionismo y Modernismo"
-  },
-  "beardsley": {
-    "name": "Aubrey Beardsley",
-    "artist": "Aestheticism and Art Nouveau black ink illustration in the style of Aubrey Beardsley, high contrast, elegant and sinuous lines, with a grotesque and decadent touch",
-    "color": "bg-stone-800",
-    "category": "Impresionismo y Modernismo"
-  },
-  "howard_pyle": {
-    "name": "Howard Pyle",
-    "artist": "Robust and realistic illustration in the style of Howard Pyle, dramatic depictions of pirates and medieval knights, American Golden Age illustration",
-    "color": "bg-amber-800",
-    "category": "Edad de Oro de la Ilustración"
-  },
-  "rackham": {
-    "name": "Arthur Rackham",
-    "artist": "Fantasy illustration in the style of Arthur Rackham, earthy color palette, distinctive use of ink for silhouettes and details, gnarled trees and magical creatures",
-    "color": "bg-teal-700",
-    "category": "Edad de Oro de la Ilustración"
-  },
-  "dulac": {
-    "name": "Edmund Dulac",
-    "artist": "Fantasy illustration in the style of Edmund Dulac, rich jewel-like colors, strong Persian and oriental art influence, magical fairytale scenes",
-    "color": "bg-fuchsia-800",
-    "category": "Edad de Oro de la Ilustración"
-  },
-  "nc_wyeth": {
-    "name": "N.C. Wyeth",
-    "artist": "Oil painting in the style of N.C. Wyeth, bold compositions, vibrant colors, and a sense of drama and adventure, famous for illustrating classics like Treasure Island",
-    "color": "bg-orange-700",
-    "category": "Edad de Oro de la Ilustración"
-  },
-  "parrish": {
-    "name": "Maxfield Parrish",
-    "artist": "Painting in the style of Maxfield Parrish, intensely saturated colors, especially his signature \"Parrish blue\", fantastical dreamlike landscapes with neoclassical figures",
-    "color": "bg-sky-600",
-    "category": "Edad de Oro de la Ilustración"
-  },
-  "frazetta": {
-    "name": "Frank Frazetta",
-    "artist": "Heroic fantasy oil painting in the style of Frank Frazetta, dynamic energy, powerful muscular figures, primal raw action",
-    "color": "bg-amber-700",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "moebius": {
-    "name": "Moebius (Jean Giraud)",
-    "artist": "Intricate line art in the style of Moebius (Jean Giraud), clear line (ligne claire), surreal and vast sci-fi landscapes, imaginative design",
-    "color": "bg-blue-800",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "beksinski": {
-    "name": "Zdzisław Beksiński",
-    "artist": "Dystopian surrealism painting in the style of Zdzisław Beksiński, nightmarish landscapes, skeletal figures, and a deeply dark, macabre, post-apocalyptic atmosphere",
-    "color": "bg-orange-900",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "boris_vallejo": {
-    "name": "Boris Vallejo",
-    "artist": "Hyperrealistic fantasy painting in the style of Boris Vallejo, with a focus on idealized and exaggeratedly muscular human anatomy",
-    "color": "bg-red-700",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "julie_bell": {
-    "name": "Julie Bell",
-    "artist": "Realistic and detailed fantasy painting in the style of Julie Bell, famous for her depiction of metallic surfaces, \"liquid metal,\" and heroic figures",
-    "color": "bg-indigo-700",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "ken_kelly": {
-    "name": "Ken Kelly",
-    "artist": "Heroic and powerful fantasy painting in the style of Ken Kelly, following in the footsteps of Frazetta, famous for KISS and Conan the Barbarian covers",
-    "color": "bg-red-900",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "michael_whelan": {
-    "name": "Michael Whelan",
-    "artist": "\"Imaginative realism\" painting in the style of Michael Whelan, iconic book covers combining meticulous detail with an atmosphere of wonder and vibrant color",
-    "color": "bg-purple-700",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "roger_dean": {
-    "name": "Roger Dean",
-    "artist": "Exotic and psychedelic otherworldly landscapes in the style of Roger Dean, with floating islands and organic architecture, famous for progressive rock covers",
-    "color": "bg-lime-500",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "john_berkey": {
-    "name": "John Berkey",
-    "artist": "Loose, almost impressionistic science fiction painting in the style of John Berkey, colossal and complex spaceships with quick and energetic strokes",
-    "color": "bg-cyan-700",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "chris_foss": {
-    "name": "Chris Foss",
-    "artist": "Massive and colorful spaceships in the style of Chris Foss, often with checkered patterns and a worn, functional look, a pillar of 70s sci-fi art",
-    "color": "bg-yellow-700",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "greg_rutkowski": {
-    "name": "Greg Rutkowski",
-    "artist": "Epic digital fantasy painting in the style of Greg Rutkowski, grandiose landscapes, dramatic lighting, often featuring castles, knights, and dragons",
-    "color": "bg-rose-700",
-    "category": "Fantasía y Ciencia Ficción"
-  },
-  "mignola": {
-    "name": "Mike Mignola",
-    "artist": "Graphic illustration in the style of Mike Mignola (Hellboy), dramatic use of large black masses and heavy shadows, with an angular, simplified character design",
-    "color": "bg-red-800",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "alex_ross": {
-    "name": "Alex Ross",
-    "artist": "Fully photorealistic painting style in the style of Alex Ross, depicting superheroes in a noble, classic, and iconic way, as if they were real mythological figures",
-    "color": "bg-blue-700",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "bernie_wrightson": {
-    "name": "Bernie Wrightson",
-    "artist": "Master of gothic horror in the style of Bernie Wrightson, incredibly detailed style with masterful use of pen and ink, creating macabre textures and atmospheres (Frankenstein)",
-    "color": "bg-gray-800",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "richard_corben": {
-    "name": "Richard Corben",
-    "artist": "Underground comic art in the style of Richard Corben, masterful use of the airbrush, exaggerated and muscular anatomies, dramatic lighting, and fleshy textures, heavy metal aesthetic",
-    "color": "bg-orange-600",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "dave_mckean": {
-    "name": "Dave McKean",
-    "artist": "Experimental mixed media in the style of Dave McKean, combining painting, photography, collage, and digital art. Dark, surreal, and dreamlike atmosphere (covers of \"The Sandman\")",
-    "color": "bg-stone-600",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "bill_sienkiewicz": {
-    "name": "Bill Sienkiewicz",
-    "artist": "Expressionistic and abstract comic book style of Bill Sienkiewicz, mixing painting, collage, and drawing. Energetic strokes and unconventional compositions",
-    "color": "bg-purple-800",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "simon_bisley": {
-    "name": "Simon Bisley",
-    "artist": "Energetic and fully rendered painting style of Simon Bisley. Exaggerated anatomies, raw violence, and a heavy metal aesthetic that influenced 90s comics",
-    "color": "bg-zinc-700",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "stephen_bissette": {
-    "name": "Stephen R. Bissette",
-    "artist": "Horror artist known for \"Swamp Thing\" in the style of Stephen R. Bissette. Raw and organic style, with a focus on body horror and visceral textures",
-    "color": "bg-green-800",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "john_totleben": {
-    "name": "John Totleben",
-    "artist": "Master inker known for \"Swamp Thing\" in the style of John Totleben. Incredibly detailed and atmospheric inking style, creating organic textures and a horror mood",
-    "color": "bg-teal-900",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "jh_williams": {
-    "name": "J.H. Williams III",
-    "artist": "Comic art in the style of J.H. Williams III, known for incredibly innovative and experimental page layouts, often incorporating psychedelic and graphic design elements",
-    "color": "bg-pink-700",
-    "category": "Maestros del Cómic y Terror"
-  },
-  "studio_ghibli": {
-    "name": "Studio Ghibli",
-    "artist": "in the style of Hayao Miyazaki and Studio Ghibli, lush and detailed watercolor-like backgrounds, expressive characters, and a sense of wonder and nostalgia",
-    "color": "bg-green-500",
-    "category": "Animación y Estilo Japonés"
-  },
-  "hokusai": {
-    "name": "Katsushika Hokusai",
-    "artist": "Japanese Ukiyo-e art in the style of Katsushika Hokusai, dynamic and fluid lines, bold compositions, and a focus on landscapes and nature, as in \"The Great Wave\"",
-    "color": "bg-indigo-500",
-    "category": "Animación y Estilo Japonés"
-  },
-  "yoshitaka_amano": {
-    "name": "Yoshitaka Amano",
-    "artist": "Ethereal and elegant style of Yoshitaka Amano, famous for \"Final Fantasy\", with influences from Art Nouveau and Ukiyo-e. Fluid and delicate ink lines",
-    "color": "bg-violet-500",
-    "category": "Animación y Estilo Japonés"
-  },
-  "tim_burton": {
-    "name": "Tim Burton",
-    "artist": "Gothic and fantastical style of Tim Burton. Slender, lanky characters with large eyes, a dark color palette, and recurring motifs like spirals",
-    "color": "bg-slate-600",
-    "category": "Animación y Estilo Japonés"
-  },
-  "anime_modern": {
-    "name": "Anime (Moderno)",
-    "artist": "Contemporary Japanese animation style, clean lines, large and expressive eyes, colorful hair, and a bright digital color palette",
-    "color": "bg-pink-500",
-    "category": "Animación y Estilo Japonés"
-  },
-  "disney_classic": {
-    "name": "Disney (Clásico)",
-    "artist": "Golden age of Disney animation style, characters with soft, rounded lines, fluid and expressive animation, and rich backgrounds",
-    "color": "bg-blue-500",
-    "category": "Animación y Estilo Japonés"
-  },
-  "pixar_style": {
-    "name": "Pixar",
-    "artist": "3D animation in the style of Pixar, with stylized characters, detailed textures, and sophisticated, cinematic lighting that enhances emotion",
-    "color": "bg-yellow-400",
-    "category": "Animación y Estilo Japonés"
-  },
-  "manga_style": {
-    "name": "Manga",
-    "artist": "Japanese comic book style, black and white, use of screentones for grays and textures, and dynamic action lines",
-    "color": "bg-indigo-600",
-    "category": "Animación y Estilo Japonés"
-  },
-  "andy_warhol": {
-    "name": "Andy Warhol",
-    "artist": "Pop Art style of Andy Warhol, use of screen printing to reproduce images from popular culture with flat, bright colors",
-    "color": "bg-pink-400",
-    "category": "Arte Contemporáneo y Urbano"
-  },
-  "banksy": {
-    "name": "Banksy",
-    "artist": "Urban art with stencils in the style of Banksy, dark humor, and sharp social and political commentary",
-    "color": "bg-gray-900",
-    "category": "Arte Contemporáneo y Urbano"
-  },
-  "custom": {
-    "name": "Estilo Personalizado",
-    "artist": "",
-    "color": "bg-emerald-500",
-    "category": "Personalizado"
-  }
-}
+  "titulo_profecia": "Un título evocador para la profecía",
+  "simbolo_clave": "Un símbolo, objeto o concepto místico relevante (o cadena vacía '' si no aplica)",
+  "texto_profecia": "El texto completo de la profecía, en un tono misterioso y poético.",
+  "interpretacion_profecia": "Una breve interpretación o el posible significado oculto de la profecía."
+}`;
+                
+                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentApiKey}`,
+                        'HTTP-Referer': window.location.href,
+                        'X-Title': 'Crystal Oracle con IA'
+                    },
+                    body: JSON.stringify({
+                        model: selectedModel,
+                        messages: [{ role: 'user', content: prompt }],
+                        temperature: 0.7,
+                        max_tokens: 600
+                    })
+                });
+                
+                if (!response.ok) {
+                    let errorData;
+                    try {
+                        errorData = await response.json();
+                    } catch (e) {
+                        const errorText = await response.text();
+                        errorData = { message: `Error HTTP ${response.status}: ${errorText}` };
+                    }
+                    
+                    let errorMsg = `Error de la API: ${response.status} ${response.statusText}`;
+                    if (errorData?.error?.message) errorMsg += ` - ${errorData.error.message}`;
+                    else if (errorData?.message) errorMsg += ` - ${errorData.message}`;
+                    
+                    throw new Error(errorMsg);
+                }
+                
+                const data = await response.json();
+                
+                if (data.choices && data.choices.length > 0 && data.choices[0].message?.content) {
+                    const rawContent = data.choices[0].message.content.trim();
+                    
+                    try {
+                        const cleanedContent = rawContent.replace(/^```json\s*|```\s*$/g, '');
+                        const parsedResponse = JSON.parse(cleanedContent);
+                        
+                        if (parsedResponse.texto_profecia && parsedResponse.titulo_profecia && parsedResponse.interpretacion_profecia) {
+                            // Mostrar resultado
+                            prophecyTitle.textContent = parsedResponse.titulo_profecia;
+                            prophecyText.textContent = parsedResponse.texto_profecia;
+                            prophecyInterpretation.textContent = parsedResponse.interpretacion_profecia;
+                            
+                            if (parsedResponse.simbolo_clave && parsedResponse.simbolo_clave.trim() !== '' && parsedResponse.simbolo_clave.toLowerCase() !== 'n/a') {
+                                prophecySymbolText.textContent = parsedResponse.simbolo_clave;
+                                prophecySymbol.style.display = 'block';
+                            } else {
+                                prophecySymbol.style.display = 'none';
+                                parsedResponse.simbolo_clave = '';
+                            }
+                            
+                            // Mostrar resultado después de un delay para el efecto
+                            setTimeout(() => {
+                                prophecyResult.style.display = 'block';
+                                
+                                // Agregar al historial
+                                addEntryToHistory(userText, parsedResponse);
+                                displayHistory();
+                                
+                                // Actualizar visibilidad de configuración después de generar
+                                updateConfigurationVisibility();
+                            }, 2000);
+                            
+                            // Crear palabras flotantes hacia la zona de respuesta
+                            createFloatingWords(parsedResponse.texto_profecia, prophecyResult);
+                            
+                        } else {
+                            throw new Error("Campos esperados no encontrados en JSON de IA.");
+                        }
+                        
+                    } catch (jsonError) {
+                        errorMessage.textContent = `Error procesando respuesta de IA: ${jsonError.message}`;
+                        errorMessage.style.display = 'block';
+                        console.error("Error parseando JSON:", jsonError, "Contenido:", rawContent);
+                    }
+                } else {
+                    throw new Error("Respuesta de IA no tuvo el formato esperado.");
+                }
+                
+            } catch (error) {
+                errorMessage.textContent = `Error al revelar la profecía: ${error.message}`;
+                errorMessage.style.display = 'block';
+                console.error("Error en generación:", error);
+                
+                // Mostrar configuración si hay error de API key
+                if (error.message.includes('401') || error.message.includes('auth')) {
+                    showConfigurationIfNeeded();
+                }
+            } finally {
+                isGenerating = false;
+                loading.style.display = 'none';
+                updateButtonStates();
+            }
+        }
+        
+        // Event listeners
+        loadFreeKeyBtn.addEventListener('click', loadFreeApiKey);
+        saveApiKeyBtn.addEventListener('click', saveApiKey);
+        clearApiKeyBtn.addEventListener('click', clearApiKey);
+        askButton.addEventListener('click', generateProphecy);
+        exportHistoryBtn.addEventListener('click', exportHistoryToMarkdown);
+        downloadZoltarBtn.addEventListener('click', downloadZoltarCard);
+        
+        apiKeyInput.addEventListener('input', updateButtonStates);
+        userInput.addEventListener('input', () => {
+            displayHistory();
+            updateButtonStates();
+        });
+        
+        rebuscadoSlider.addEventListener('input', () => {
+            rebuscadoSliderValue.textContent = rebuscadoSlider.value;
+        });
+        
+        modelSelect.addEventListener('change', saveSelectedModel);
+        
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !askButton.disabled) {
+                generateProphecy();
+            }
+        });
+        
+        // Inicialización
+        createStars();
+        loadApiKey();
+        loadSelectedModel();
+        loadAllHistory();
+        updateButtonStates();
+        
+        console.log('🔮 Crystal Oracle con IA inicializado correctamente');
+    </script>
+</body>
+</html>
